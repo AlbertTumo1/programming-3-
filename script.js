@@ -5,6 +5,8 @@ const predatorArr = [];
 const kingEaterArr = [];
 const enemyEaterArr = [];
 
+// I added a new comment here on line 8.
+
 const matrix = [];
 const a = 16;
 const b = 16;
