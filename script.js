@@ -7,6 +7,10 @@ const enemyEaterArr = [];
 
 // I added a new comment here on line 8.
 
+// Git add .
+// Git commit -m "descripion"
+// git push -u origin master
+
 const matrix = [];
 const a = 16;
 const b = 16;
