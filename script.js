@@ -5,11 +5,11 @@ const predatorArr = [];
 const kingEaterArr = [];
 const enemyEaterArr = [];
 
-// I added a new comment here on line 8.
-
 // Git add .
 // Git commit -m "descripion"
 // git push -u origin master
+
+// Programming 3, Lesson 2 Github testing
 
 const matrix = [];
 const a = 16;
