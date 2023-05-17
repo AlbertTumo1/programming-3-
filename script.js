@@ -1,3 +1,7 @@
+// Git add .
+// Git commit -m "descripion"
+// git push -u origin master
+
 const side = 50;
 const grassArr = [];
 const grassEaterArr = [];
@@ -5,17 +9,14 @@ const predatorArr = [];
 const kingEaterArr = [];
 const enemyEaterArr = [];
 
-// Git add .
-// Git commit -m "descripion"
-// git push -u origin master
-
-// Programming 3, Lesson 5 test
+let myMatrix = [];
+let socket = io();
 
 const matrix = [];
 const a = 16;
 const b = 16;
 
-function Generation(count ,character){
+function GeneratePlayers(count, character){
     let p = 0;
     while (p < count) {
         let k = Math.floor(random(0,a))
@@ -36,47 +37,21 @@ function setup() {
         }
     }
 
-    frameRate(3);
-    createCanvas(matrix[0].length * side, matrix.length * side);
+    createCanvas(myMatrix[0].length * side, myMatrix.length * side);
     background('#acacac');
 
-    Generation(80,1); // grass
-    Generation(12,2); // grass eater
-    Generation(14,3); // predator
-    Generation(2,4); // king eater
-    Generation(9,5); // enemy eater (eats only grassEater and Predator)
+    GeneratePlayers(80,1); // grass
+    GeneratePlayers(12,2); // grass eater
+    GeneratePlayers(14,3); // predator
+    GeneratePlayers(2,4); // king eater
+    GeneratePlayers(9,5); // enemy eater (eats only grassEater and Predator)
 
-    for(let y = 0; y < matrix.length; ++y){
-        for(let x = 0; x < matrix[y].length; ++x){
-            if(matrix[y][x] == 1){
-                let grass = new Grass(x,y,1);
-                grassArr.push(grass);
-            }
-            else if(matrix[y][x] == 2){
-                let grassEater = new GrassEater(x,y,2)
-                grassEaterArr.push(grassEater)
-            } 
-            else if(matrix[y][x] == 3){
-                let predator = new Predator(x,y,3)
-                predatorArr.push(predator);
-            }  
-            else if(matrix[y][x] == 4){
-                let kingEater = new KingEater(x,y,4);
-                kingEaterArr.push(kingEater);
-            }  
-            else if(matrix[y][x] == 5){
-                let enemyEater = new EnemyEater(x,y,5);
-                enemyEaterArr.push(enemyEater);
-            }  
-            
-        }
-     }
+    
 }
 
-function draw() {
+function drawing(matrix) {
     for (let y = 0; y < matrix.length; y++) {
         for (let x = 0; x < matrix[y].length; x++) {
- 
             if (matrix[y][x] == 0) {
                 fill("#acacac");
             } else if (matrix[y][x] == 1) {
@@ -94,24 +69,7 @@ function draw() {
             rect(x * side, y * side, side, side);
         }
     }
-    
-    for(let i in grassArr){
-        grassArr[i].mul();
-    }
-
-    for(let i in grassEaterArr) {
-        grassEaterArr[i].eat();   
-    }
-
-    for(let i in predatorArr) {
-        predatorArr[i].eat();   
-    }
-
-    for(let i in kingEaterArr) {
-        kingEaterArr[i].eat();   
-    }
-
-    for(let i in enemyEaterArr) {
-        enemyEaterArr[i].eat();   
-    }
 }
+
+socket.on("initial", (data) => myMatrix = data);
+socket.on("send_matrix", (data) => drawing(data));
