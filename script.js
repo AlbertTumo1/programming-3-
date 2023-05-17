@@ -9,7 +9,7 @@ const enemyEaterArr = [];
 // Git commit -m "descripion"
 // git push -u origin master
 
-// Programming 3, Lesson 5
+// Programming 3, Lesson 5 test
 
 const matrix = [];
 const a = 16;
