@@ -29,14 +29,6 @@ function GeneratePlayers(count, character){
 }
 
 function setup() {
-    for (let i = 0; i < a; i++) {
-        matrix.push([])
-
-        for (let j = 0; j < b; j++) {
-            matrix[i].push(0)
-        }
-    }
-
     createCanvas(myMatrix[0].length * side, myMatrix.length * side);
     background('#acacac');
 

@@ -32,8 +32,16 @@ module.exports = class LivingCreature {
         return found;
     }
 
-    random(number) {
-        console.log(number)
-        return Math.floor(Math.random() * number.length);
+    random(items) {
+        let item;
+        if(Array.isArray(items)) {
+            item = items[Math.floor(Math.random() * items.length)]
+        } else if(typeof(items) == "number") {
+            item = Math.floor(Math.random() * items);
+        }
+
+        return item;
     }
 }
+
+// when button clicked => change weather, kill all of the kingeaters instead of 1

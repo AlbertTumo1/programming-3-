@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-const Grass = require("./Grass");
-const GrassEater = require("./GrassEater");
-const Predator = require("./predator");
-const KingEater = require("./kingEater");
-const EnemyEater = require("./enemyEater");
+const Grass = require("./modules/Grass");
+const GrassEater = require("./modules/GrassEater");
+const Predator = require("./modules/predator");
+const KingEater = require("./modules/kingEater");
+const EnemyEater = require("./modules/enemyEater");
 
 app.use(express.static("."));
 
@@ -46,6 +46,7 @@ function drawGame() {
         enemyEaterArr[i].eat();   
     }
 
+    console.log(matrix)
     return matrix;
 }
 
@@ -63,7 +64,6 @@ function createCanvas() {
     }
 
     GenerateMatrix();
-
     console.log(matrix)
 
 
@@ -106,7 +106,3 @@ io.on('connection', function(socket) {
 });
 
 server.listen(3000, () => console.log("Server running on port 3000! COOL"));
-
-
-
-
