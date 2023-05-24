@@ -7,6 +7,7 @@ const GrassEater = require("./modules/GrassEater");
 const Predator = require("./modules/predator");
 const KingEater = require("./modules/kingEater");
 const EnemyEater = require("./modules/enemyEater");
+const Lava = require("./modules/Lava");
 
 app.use(express.static("."));
 
@@ -19,6 +20,7 @@ grassEaterArr = [];
 predatorArr = [];
 kingEaterArr = [];
 enemyEaterArr = [];
+lavaArr = [];
 
 matrix = [];
 
@@ -51,14 +53,13 @@ function GenerateMatrix() {
     GeneratePlayers(17,3); // predator
     GeneratePlayers(6,4); // king eater
     GeneratePlayers(12,5); // enemy eater (eats only grassEater and Predator)
+    GeneratePlayers(20,6); // enemy eater (eats only grassEater and Predator)
     return matrix;
 }
 
 matrix = GenerateMatrix();
-console.log(matrix);
     
 for(let y = 0; y < matrix.length; ++y){
-    console.log(matrix)
     for(let x = 0; x < matrix[y].length; ++x){
         if(matrix[y][x] == 1){
             let grass = new Grass(x,y,1);
@@ -79,6 +80,10 @@ for(let y = 0; y < matrix.length; ++y){
         else if(matrix[y][x] == 5){
             let enemyEater = new EnemyEater(x,y,5);
             enemyEaterArr.push(enemyEater);
+        }  
+        else if(matrix[y][x] == 6){
+            let lava = new Lava(x,y,6);
+            lavaArr.push(lava);
         }  
     }
 }
@@ -104,12 +109,14 @@ function drawGame() {
         enemyEaterArr[i].eat();   
     }
 
+    for(let i in lavaArr) {
+        lavaArr[i].eat();   
+    }
+
     let sendData = {
       matrix: matrix
     }
 
-    console.log(sendData);
-  
     io.sockets.emit("matrix", sendData)
 }
 

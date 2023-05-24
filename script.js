@@ -29,6 +29,8 @@ function drawing(data) {
             } else if (matrix[y][x] == 4) {
                 fill("black");
             } else if (matrix[y][x] == 5) {
+                fill("blue");
+            } else if (matrix[y][x] == 6) {
                 fill("orange");
             }
          
@@ -38,3 +40,7 @@ function drawing(data) {
 }
 
 socket.on("matrix", drawing);
+
+// Add 2 Characters: Water and Fire
+// Add 2 Weathers: summer and winter (during winter grass dies and moves slower) (during summer they grow and spread faster)
+// Add 2 Events: raining, radiation
