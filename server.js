@@ -7,6 +7,7 @@ const GrassEater = require("./modules/GrassEater");
 const Predator = require("./modules/predator");
 const KingEater = require("./modules/kingEater");
 const EnemyEater = require("./modules/enemyEater");
+const Water = require("./modules/Water");
 const Lava = require("./modules/Lava");
 
 app.use(express.static("."));
@@ -20,6 +21,7 @@ grassEaterArr = [];
 predatorArr = [];
 kingEaterArr = [];
 enemyEaterArr = [];
+waterArr = [];
 lavaArr = [];
 
 matrix = [];
@@ -44,16 +46,17 @@ function GenerateMatrix() {
         matrix.push([]);
 
         for (let j = 0; j < b; j++) {
-             matrix[i].push(0)
+            matrix[i].push(0)
         }
     }
 
-    GeneratePlayers(80,1); // grass
+    GeneratePlayers(100,1); // grass
     GeneratePlayers(20,2); // grass eater
     GeneratePlayers(17,3); // predator
     GeneratePlayers(6,4); // king eater
     GeneratePlayers(12,5); // enemy eater (eats only grassEater and Predator)
-    GeneratePlayers(20,6); // enemy eater (eats only grassEater and Predator)
+    GeneratePlayers(12,6); // water
+    GeneratePlayers(10,7); // lava
     return matrix;
 }
 
@@ -82,10 +85,28 @@ for(let y = 0; y < matrix.length; ++y){
             enemyEaterArr.push(enemyEater);
         }  
         else if(matrix[y][x] == 6){
-            let lava = new Lava(x,y,6);
+            let water = new Water(x,y,6);
+            waterArr.push(water);
+        }  
+        else if(matrix[y][x] == 7){
+            let lava = new Lava(x,y,7);
             lavaArr.push(lava);
         }  
     }
+}
+
+
+function GetPlayerCounts() {
+    let grassCount = grassArr.length
+    let grassEaterCount = grassEaterArr.length
+    let predatorCount = predatorArr.length
+    let kingEaterCount = kingEaterArr.length
+    let enemyEaterCount = enemyEaterArr.length
+    let waterCount = waterArr.length
+    let lavaCount = lavaArr.length
+
+    let sendData = { grassCount, grassEaterCount, predatorCount, kingEaterCount, enemyEaterCount, waterCount, lavaCount };
+    io.sockets.emit("player_counts", sendData)
 }
 
 function drawGame() {
@@ -109,8 +130,12 @@ function drawGame() {
         enemyEaterArr[i].eat();   
     }
 
+    for(let i in waterArr) {
+        waterArr[i].mul();   
+    }
+
     for(let i in lavaArr) {
-        lavaArr[i].eat();   
+        lavaArr[i].mul();   
     }
 
     let sendData = {
@@ -120,6 +145,8 @@ function drawGame() {
     io.sockets.emit("matrix", sendData)
 }
 
+
 setInterval(drawGame, 1000);
+setInterval(GetPlayerCounts, 1000);
 
 server.listen(3000, () => console.log("Server running on port 3000! COOL"));

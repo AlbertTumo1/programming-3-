@@ -38,11 +38,13 @@ module.exports = class KingEater extends LivingCreature {
         let grassEaterFoods = this.chooseCell(2);
         let predatorFoods = this.chooseCell(3);
         let enemyEaterFoods = this.chooseCell(5);
+        let waterFoods = this.chooseCell(6);
 
         let grassFood = this.random(grassFoods);
         let grassEaterFood = this.random(grassEaterFoods);
         let predatorFood = this.random(predatorFoods);
         let enemyEaterFood = this.random(enemyEaterFoods);
+        let waterFood = this.random(waterFoods);
 
         if(grassFood) {
             this.energy++;
@@ -121,8 +123,27 @@ module.exports = class KingEater extends LivingCreature {
             if (this.energy >= 15) {
                 this.mul();
             }
-        } 
-        else {
+        } else if(waterFood) {
+            this.energy++;
+            matrix[this.y][this.x] = 0;
+            let newX = waterFood[0];
+            let newY = waterFood[1];
+            matrix[waterFood[1]][waterFood[0]] = 4;
+            this.x = newX;
+            this.y = newY;
+
+            for (let i in waterArr) {
+                if (newX == waterArr[i].x && newY == waterArr[i].y) {
+                    waterArr.splice(i, 1);
+                    break;
+                }
+            }
+
+            if (this.energy >= 15) {
+                this.mul();
+            } 
+
+        } else {
             this.move();
         }
     }

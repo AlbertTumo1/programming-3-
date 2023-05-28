@@ -35,6 +35,7 @@ module.exports = class Predator extends LivingCreature {
     }
 
     eat() {
+        let waterFoods = this.random(this.chooseCell(6));
         let foods = this.chooseCell(2);
         let food = this.random(foods);
 
@@ -50,6 +51,26 @@ module.exports = class Predator extends LivingCreature {
             for (let i in grassEaterArr) {
                 if (newX == grassEaterArr[i].x && newY == grassEaterArr[i].y) {
                     grassEaterArr.splice(i, 1);
+                    break;
+                }
+            }
+            if (this.energy >= 17) {
+                this.mul();
+            }
+        }
+
+        else if (waterFoods) {
+            this.energy++;
+            matrix[this.y][this.x] = 0
+            let newX = waterFoods[0]
+            let newY = waterFoods[1]
+            matrix[waterFoods[1]][waterFoods[0]] = 3;
+            this.x = newX;
+            this.y = newY;
+
+            for (let i in waterArr) {
+                if (newX == waterArr[i].x && newY == waterArr[i].y) {
+                    waterArr.splice(i, 1);
                     break;
                 }
             }
